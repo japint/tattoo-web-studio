@@ -4,10 +4,27 @@ export default function Home() {
       <div className="max-w-4xl mx-auto text-center relative">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-20 h-20 border-2 border-yellow-400 rotate-45 animate-pulse opacity-30"></div>
-          <div className="absolute top-40 right-20 w-16 h-16 border-2 border-orange-500 rotate-12 animate-bounce opacity-20"></div>
-          <div className="absolute bottom-20 left-20 w-12 h-12 border-2 border-red-500 rotate-45 animate-pulse opacity-25"></div>
-          <div className="absolute bottom-40 right-10 w-24 h-24 border-2 border-yellow-600 rotate-12 animate-bounce opacity-15"></div>
+          {/* Top left floating square */}
+          <div className="absolute top-10 left-10 w-20 h-20 border-4 border-yellow-400 rotate-45 animate-pulse opacity-60 shadow-lg shadow-yellow-400/20"></div>
+
+          {/* Top right bouncing diamond */}
+          <div className="absolute top-40 right-20 w-16 h-16 border-4 border-orange-500 rotate-12 animate-bounce opacity-50 shadow-lg shadow-orange-500/20"></div>
+
+          {/* Bottom left pulsing square */}
+          <div className="absolute bottom-20 left-20 w-12 h-12 border-4 border-red-500 rotate-45 animate-pulse opacity-55 shadow-lg shadow-red-500/20"></div>
+
+          {/* Bottom right spinning diamond */}
+          <div className="absolute bottom-40 right-10 w-24 h-24 border-4 border-yellow-600 rotate-12 animate-spin opacity-40 shadow-lg shadow-yellow-600/20"></div>
+
+          {/* Additional floating elements for more animation */}
+          <div className="absolute top-1/3 left-1/4 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full animate-bounce opacity-30 blur-sm"></div>
+          <div className="absolute top-2/3 right-1/3 w-6 h-6 bg-gradient-to-r from-red-500 to-pink-500 rounded-full animate-pulse opacity-40 blur-sm"></div>
+          <div className="absolute top-1/2 left-1/2 w-10 h-10 border-2 border-dashed border-yellow-300 rounded-full animate-spin opacity-25"></div>
+
+          {/* Floating particles */}
+          <div className="absolute top-20 right-1/3 w-3 h-3 bg-yellow-400 rounded-full animate-ping opacity-60"></div>
+          <div className="absolute bottom-32 left-1/3 w-2 h-2 bg-orange-500 rounded-full animate-ping opacity-50"></div>
+          <div className="absolute top-1/2 right-20 w-4 h-4 bg-red-400 rounded-full animate-ping opacity-40"></div>
         </div>
 
         {/* Main content */}
@@ -75,7 +92,7 @@ export default function Home() {
           <div className="mb-8">
             <div className="flex justify-between text-sm text-gray-400 mb-2">
               <span>Progress</span>
-              <span>75%</span>
+              <span>0%</span>
             </div>
             <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
               <div
@@ -94,7 +111,7 @@ export default function Home() {
             <div className="flex justify-center space-x-6 text-sm">
               <div className="flex items-center space-x-2 text-gray-400">
                 <span>📧</span>
-                <span>contact@tattoowebstudio.com</span>
+                <span>contact@idealhubstudio.com</span>
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
                 <span>📱</span>
