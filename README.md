@@ -1,4 +1,10 @@
+# Ink Rebellion - Tattoo Studio Website
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## About Ink Rebellion
+
+A premium tattoo studio website featuring modern design, responsive layout, and professional presentation for tattoo artists and their work.
 
 ## Getting Started
 
