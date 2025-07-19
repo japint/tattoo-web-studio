@@ -16,14 +16,14 @@ export default function Navigation() {
               <a href="#about" className="nav-link">
                 About
               </a>
-              <a href="#services" className="nav-link">
-                Services
-              </a>
               <a href="#gallery" className="nav-link">
                 Gallery
               </a>
               <a href="#artists" className="nav-link">
                 Artists
+              </a>
+              <a href="#services" className="nav-link">
+                Services
               </a>
               <a href="#contact" className="nav-link">
                 Contact
