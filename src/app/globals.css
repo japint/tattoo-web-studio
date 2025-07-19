@@ -308,6 +308,37 @@ section {
   }
 }
 
+/* FAB Animations */
+@keyframes fabPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
+  }
+}
+
+@keyframes fabGlow {
+  0%,
+  100% {
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    box-shadow: 0 8px 40px rgba(212, 175, 55, 0.8);
+  }
+}
+
+.fab-pulse {
+  animation: fabPulse 2s ease-in-out infinite;
+}
+
+.fab-glow {
+  animation: fabGlow 3s ease-in-out infinite;
+}
+
 /* Mobile Responsive Enhancements */
 @media (max-width: 768px) {
   .section-title {
