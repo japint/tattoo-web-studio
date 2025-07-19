@@ -1,3 +1,5 @@
+"use client";
+
 import Navigation from "@/components/sections/Navigation";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
@@ -6,6 +8,7 @@ import ArtistsSection from "@/components/sections/ArtistsSection";
 import ServicesSection from "@/components/sections/ServicesSection";
 import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/sections/Footer";
+import { FloatingActionButton } from "@/components/business";
 
 export default function Home() {
   return (
@@ -18,6 +21,8 @@ export default function Home() {
       <ServicesSection />
       <ContactSection />
       <Footer />
+
+      <FloatingActionButton />
     </div>
   );
 }
