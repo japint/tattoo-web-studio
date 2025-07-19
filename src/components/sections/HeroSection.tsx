@@ -6,8 +6,9 @@ export default function HeroSection() {
       id="home"
       className="relative h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Hero Background Image */}
+      {/* Hero Background with Video and Image Fallback */}
       <div className="absolute inset-0">
+        {/* Fallback Image - displays behind video */}
         <Image
           src="/images/img6.jpg"
           alt="Tattoo Studio Hero Background"
@@ -19,6 +20,24 @@ export default function HeroSection() {
           placeholder="blur"
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyejFhVvhCnO3mtuNLvtVYYmEd1dO2GQWEX5UmlYtimJhRH4uBGPhUm3oN/wA/eQQ4AJbXhxsWJPBNLJMENGaXFIDQE6AO02U8SIgWFGDN5eqCKrb5HjXgvf4qK/+CL/D"
         />
+
+        {/* Video overlay - displays on top of image when supported */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => {
+            // Hide video if it fails to load, showing the fallback image
+            e.currentTarget.style.display = "none";
+          }}
+        >
+          <source src="/images/video3.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black bg-opacity-60"></div>
       </div>
       <div className="absolute inset-0 bg-tattoo-pattern opacity-20"></div>
@@ -31,8 +50,12 @@ export default function HeroSection() {
           Premium Tattoo Studio • Custom Designs • Professional Artists
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-scale-in">
-          <button className="btn-primary">Book Appointment</button>
-          <button className="btn-secondary">View Gallery</button>
+          <button className="btn-primary" suppressHydrationWarning>
+            Book Appointment
+          </button>
+          <button className="btn-secondary" suppressHydrationWarning>
+            View Gallery
+          </button>
         </div>
       </div>
 

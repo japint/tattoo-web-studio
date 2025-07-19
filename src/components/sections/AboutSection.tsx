@@ -112,7 +112,9 @@ export default function AboutSection() {
                   Professional, sterile, and welcoming environment designed for
                   comfort and creativity
                 </p>
-                <button className="btn-secondary">Take Virtual Tour</button>
+                <button className="btn-secondary" suppressHydrationWarning>
+                  Take Virtual Tour
+                </button>
               </div>
             </div>
 
@@ -154,8 +156,12 @@ export default function AboutSection() {
               your vision to life.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-primary">Schedule Consultation</button>
-              <button className="btn-secondary">View Our Process</button>
+              <button className="btn-primary" suppressHydrationWarning>
+                Schedule Consultation
+              </button>
+              <button className="btn-secondary" suppressHydrationWarning>
+                View Our Process
+              </button>
             </div>
           </div>
         </div>

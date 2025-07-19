@@ -43,7 +43,9 @@ export default function GallerySection() {
         </div>
 
         <div className="text-center mt-12">
-          <button className="btn-primary">View More Work</button>
+          <button className="btn-primary" suppressHydrationWarning>
+            View More Work
+          </button>
         </div>
       </div>
     </section>

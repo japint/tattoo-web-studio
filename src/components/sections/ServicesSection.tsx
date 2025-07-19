@@ -23,7 +23,7 @@ export default function ServicesSection() {
               Ready to start your tattoo journey? Schedule a free consultation
               with one of our artists today.
             </p>
-            <Button>Schedule Consultation</Button>
+            <Button suppressHydrationWarning>Schedule Consultation</Button>
           </Card>
         </div>
       </div>

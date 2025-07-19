@@ -70,7 +70,10 @@ export default function ArtistsSection() {
                 <p className="text-gray-300 text-sm leading-relaxed">
                   {artist.description}
                 </p>
-                <button className="btn-secondary mt-4 w-full">
+                <button
+                  className="btn-secondary mt-4 w-full"
+                  suppressHydrationWarning
+                >
                   View Portfolio
                 </button>
               </div>

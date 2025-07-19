@@ -31,7 +31,10 @@ export default function Navigation() {
             </div>
           </div>
           <div className="md:hidden">
-            <button className="text-white hover:text-gold-400 transition-colors">
+            <button
+              className="text-white hover:text-gold-400 transition-colors"
+              suppressHydrationWarning
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -47,7 +50,12 @@ export default function Navigation() {
               </svg>
             </button>
           </div>
-          <button className="btn-primary hidden md:block">Book Now</button>
+          <button
+            className="btn-primary hidden md:block"
+            suppressHydrationWarning
+          >
+            Book Now
+          </button>
         </div>
       </div>
     </nav>
