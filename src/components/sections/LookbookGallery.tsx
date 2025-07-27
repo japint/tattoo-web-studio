@@ -135,7 +135,7 @@ export default function LookbookGallery() {
     <>
       <section
         id="gallery"
-        className="py-20 bg-gradient-to-b from-gray-900 to-black"
+        className="scroll-snap-section py-20 bg-gradient-to-b from-gray-900 to-black"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}

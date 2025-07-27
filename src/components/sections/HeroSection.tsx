@@ -7,7 +7,7 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative h-screen flex items-center justify-center overflow-hidden"
+      className="scroll-snap-section relative h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Hero Background with Video and Image Fallback */}
       <div className="absolute inset-0">
