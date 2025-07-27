@@ -136,7 +136,7 @@ export default function Footer() {
               Contact Info
             </h4>
             <div className="space-y-2 text-gray-400">
-              <p>📍 Poblacion Street, Macabebe, Pampanga</p>
+              <p>📍 McArthur Highway, Apalit, Pampanga</p>
               <p>📞 0954-048-9964</p>
               <p>✉️ lnpc.idealhubstd@gmail.com</p>
               <p>🕒 Tue-Sat: 11am-8pm</p>

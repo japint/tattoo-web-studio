@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Navigation, Phone, Clock, Mail } from "lucide-react";
+import { MapPin, Navigation, Phone } from "lucide-react";
 import { BUSINESS_INFO } from "../../config/constants";
 
 const STUDIO_LOCATION = {
@@ -50,167 +50,40 @@ export default function StudioMap() {
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6 }}
       >
-        <div className="relative h-96 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl">
-          {/* Background pattern */}
-          <div className="absolute inset-0 bg-gray-900 opacity-50 rounded-xl">
-            {/* Realistic Map Background */}
-            <div className="w-full h-full bg-gradient-to-br from-green-100 to-blue-50 opacity-80">
-              <svg viewBox="0 0 400 300" className="w-full h-full">
-                <defs>
-                  {/* Street pattern */}
-                  <pattern
-                    id="streets"
-                    width="40"
-                    height="40"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <rect width="40" height="40" fill="#f0f9ff" />
-                    <path d="M0 20 L40 20" stroke="#d1d5db" strokeWidth="1" />
-                    <path d="M20 0 L20 40" stroke="#d1d5db" strokeWidth="1" />
-                  </pattern>
-                </defs>
+        <div className="relative h-96 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden">
+          {/* Google Maps Embed */}
+          <iframe
+            src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3849.1234567890!2d${STUDIO_LOCATION.coordinates.lng}!3d${STUDIO_LOCATION.coordinates.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDU3JzMzLjgiTiAxMjDCsDQ1JzM4LjIiRQ!5e0!3m2!1sen!2sph!4v1234567890123!5m2!1sen!2sph`}
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Ink Rebellion Studio Location"
+            className="rounded-xl"
+          />
 
-                {/* Base map with streets */}
-                <rect width="100%" height="100%" fill="url(#streets)" />
-
-                {/* Major roads */}
-                <path
-                  d="M0 150 Q100 140 200 150 T400 150"
-                  stroke="#9ca3af"
-                  strokeWidth="6"
-                  fill="none"
-                />
-                <path
-                  d="M200 0 Q190 100 200 200 T200 300"
-                  stroke="#9ca3af"
-                  strokeWidth="5"
-                  fill="none"
-                />
-
-                {/* McArthur Highway (main road) */}
-                <path
-                  d="M50 120 Q150 115 250 120 Q300 122 400 125"
-                  stroke="#6b7280"
-                  strokeWidth="8"
-                  fill="none"
-                />
-                <text
-                  x="60"
-                  y="110"
-                  fill="#4b5563"
-                  fontSize="8"
-                  fontWeight="bold"
-                >
-                  McArthur Hwy
-                </text>
-
-                {/* Local streets */}
-                <path
-                  d="M100 80 L300 90"
-                  stroke="#d1d5db"
-                  strokeWidth="3"
-                  fill="none"
-                />
-                <path
-                  d="M80 180 L320 190"
-                  stroke="#d1d5db"
-                  strokeWidth="3"
-                  fill="none"
-                />
-                <path
-                  d="M150 50 L160 250"
-                  stroke="#d1d5db"
-                  strokeWidth="3"
-                  fill="none"
-                />
-                <path
-                  d="M250 40 L260 260"
-                  stroke="#d1d5db"
-                  strokeWidth="3"
-                  fill="none"
-                />
-
-                {/* Buildings/blocks */}
-                <rect
-                  x="110"
-                  y="130"
-                  width="15"
-                  height="10"
-                  fill="#e5e7eb"
-                  stroke="#d1d5db"
-                />
-                <rect
-                  x="130"
-                  y="135"
-                  width="12"
-                  height="8"
-                  fill="#e5e7eb"
-                  stroke="#d1d5db"
-                />
-                <rect
-                  x="270"
-                  y="128"
-                  width="18"
-                  height="12"
-                  fill="#e5e7eb"
-                  stroke="#d1d5db"
-                />
-                <rect
-                  x="180"
-                  y="160"
-                  width="20"
-                  height="15"
-                  fill="#e5e7eb"
-                  stroke="#d1d5db"
-                />
-
-                {/* Landmarks */}
-                <circle cx="320" cy="180" r="8" fill="#10b981" opacity="0.7" />
-                <text x="315" y="200" fill="#059669" fontSize="6">
-                  Park
-                </text>
-
-                <rect
-                  x="80"
-                  y="200"
-                  width="25"
-                  height="15"
-                  fill="#3b82f6"
-                  opacity="0.3"
-                />
-                <text x="85" y="225" fill="#1d4ed8" fontSize="6">
-                  Mall
-                </text>
-              </svg>
-            </div>
-          </div>
-
-          {/* Simple Studio Pin - NO ANIMATION */}
+          {/* Overlay with Studio Info */}
           <div
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-            style={{ zIndex: 50 }}
+            className="absolute bottom-4 left-4 bg-black bg-opacity-80 text-white p-3 rounded-lg backdrop-blur-sm"
+            style={{ zIndex: 10 }}
           >
-            <div className="w-16 h-16 bg-gold-500 rounded-full flex items-center justify-center shadow-lg border-2 border-gold-300">
-              <MapPin className="w-8 h-8 text-black" />
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-gold-500 rounded-full animate-pulse"></div>
+              <span className="text-sm font-semibold">
+                📍 Ink Rebellion Studio
+              </span>
             </div>
-            {/* Simple pulse effect */}
-            <div className="absolute inset-0 w-16 h-16 rounded-full bg-gold-400 opacity-40 animate-ping"></div>
-          </div>
-
-          {/* Studio Label */}
-          <div
-            className="absolute bottom-20 left-1/2 transform -translate-x-1/2"
-            style={{ zIndex: 50 }}
-          >
-            <div className="bg-black text-gold-400 px-3 py-1 rounded text-sm font-semibold shadow-lg">
-              📍 Ink Rebellion Studio
-            </div>
+            <p className="text-xs text-gray-300 mt-1">
+              McArthur Highway, Apalit
+            </p>
           </div>
 
           {/* Action Buttons */}
           <div
             className="absolute top-4 right-4 flex flex-col gap-2"
-            style={{ zIndex: 50 }}
+            style={{ zIndex: 10 }}
           >
             <button
               onClick={openInMaps}
