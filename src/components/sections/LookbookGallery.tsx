@@ -1,9 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+  PanInfo,
+} from "framer-motion";
+import {
+  X,
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
+  ZoomOut,
+  RotateCcw,
+} from "lucide-react";
 
 interface GalleryImage {
   src: string;
@@ -14,6 +27,19 @@ interface GalleryImage {
 
 export default function LookbookGallery() {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [imageScale, setImageScale] = useState(1);
+  const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
+  const [isLoading, setIsLoading] = useState(true);
+  const [visibleImages, setVisibleImages] = useState(new Set<number>());
+
+  // Motion values for swipe gestures
+  const x = useMotionValue(0);
+  const opacity = useTransform(x, [-200, 0, 200], [0.5, 1, 0.5]);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lastTap = useRef(0);
 
   const galleryImages: GalleryImage[] = [
     {
@@ -66,14 +92,142 @@ export default function LookbookGallery() {
     },
   ];
 
-  const openModal = (image: GalleryImage) => {
+  // Mobile detection and intersection observer for lazy loading
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    // Intersection Observer for lazy loading
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = parseInt(
+              entry.target.getAttribute("data-index") || "0"
+            );
+            setVisibleImages((prev) => new Set([...prev, index]));
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "50px",
+      }
+    );
+
+    // Observe all gallery items
+    const galleryItems = document.querySelectorAll("[data-gallery-item]");
+    galleryItems.forEach((item) => observer.observe(item));
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      observer.disconnect();
+    };
+  }, []);
+
+  // Loading state management
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const openModal = (image: GalleryImage, index: number) => {
     setSelectedImage(image);
+    setSelectedIndex(index);
+    setImageScale(1);
+    setImagePosition({ x: 0, y: 0 });
+    x.set(0);
     document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setSelectedImage(null);
+    setImageScale(1);
+    setImagePosition({ x: 0, y: 0 });
+    x.set(0);
     document.body.style.overflow = "unset";
+  };
+
+  const navigateImage = (direction: "prev" | "next") => {
+    let newIndex;
+    if (direction === "next") {
+      newIndex =
+        selectedIndex < galleryImages.length - 1 ? selectedIndex + 1 : 0;
+    } else {
+      newIndex =
+        selectedIndex > 0 ? selectedIndex - 1 : galleryImages.length - 1;
+    }
+    setSelectedIndex(newIndex);
+    setSelectedImage(galleryImages[newIndex]);
+    setImageScale(1);
+    setImagePosition({ x: 0, y: 0 });
+    x.set(0);
+  };
+
+  // Touch and swipe handlers
+  const handleDragEnd = (
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    const offset = info.offset.x;
+    const velocity = info.velocity.x;
+
+    if (Math.abs(offset) > 100 || Math.abs(velocity) > 500) {
+      if (offset > 0) {
+        navigateImage("prev");
+      } else {
+        navigateImage("next");
+      }
+    } else {
+      x.set(0);
+    }
+  };
+
+  // Double tap to zoom
+  const handleDoubleTap = () => {
+    const now = Date.now();
+    const timeSince = now - lastTap.current;
+
+    if (timeSince < 300 && timeSince > 0) {
+      if (imageScale === 1) {
+        setImageScale(2);
+      } else {
+        setImageScale(1);
+        setImagePosition({ x: 0, y: 0 });
+      }
+    }
+    lastTap.current = now;
+  };
+
+  // Zoom controls
+  const handleZoomIn = () => {
+    setImageScale((prev) => Math.min(prev + 0.5, 3));
+  };
+
+  const handleZoomOut = () => {
+    setImageScale((prev) => Math.max(prev - 0.5, 1));
+  };
+
+  const handleResetZoom = () => {
+    setImageScale(1);
+    setImagePosition({ x: 0, y: 0 });
+  };
+
+  // Pan handler for zoomed images
+  const handlePan = (
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    if (imageScale > 1) {
+      setImagePosition((prev) => ({
+        x: prev.x + info.delta.x,
+        y: prev.y + info.delta.y,
+      }));
+    }
   };
 
   // Animation variants
@@ -157,45 +311,110 @@ export default function LookbookGallery() {
 
           {/* Gallery Grid */}
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+            className={`grid gap-6 ${
+              isMobile
+                ? "grid-cols-1 sm:grid-cols-2"
+                : "grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+            }`}
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
+            ref={containerRef}
           >
             {galleryImages.map((image, index) => (
               <motion.div
                 key={index}
                 variants={cardVariants}
-                className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer card-hover"
-                onClick={() => openModal(image)}
+                className={`group relative rounded-xl overflow-hidden cursor-pointer card-hover ${
+                  isMobile
+                    ? "aspect-[4/3] min-h-[250px]"
+                    : "aspect-square min-h-[200px] md:min-h-[250px]"
+                }`}
+                onClick={() => openModal(image, index)}
+                onTap={isMobile ? handleDoubleTap : undefined}
+                data-gallery-item
+                data-index={index}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                {/* Image */}
-                <div className="relative w-full h-full">
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    className="object-cover transition-all duration-500 ease-out group-hover:scale-110"
-                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    quality={85}
-                  />
+                {/* Image with lazy loading */}
+                <div className="absolute inset-0 w-full h-full">
+                  {visibleImages.has(index) || index < 4 ? (
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      className="object-cover transition-all duration-500 ease-out group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      quality={90}
+                      loading={index < 4 ? "eager" : "lazy"}
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                      style={{
+                        objectPosition: "center center",
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-800 animate-pulse flex items-center justify-center">
+                      <div className="text-gray-600 text-sm">Loading...</div>
+                    </div>
+                  )}
+
+                  {/* Loading overlay */}
+                  {isLoading && (
+                    <div className="absolute inset-0 bg-gray-800 animate-pulse" />
+                  )}
 
                   {/* Dark Overlay */}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 ease-out" />
 
                   {/* Content Overlay */}
-                  <div className="absolute inset-0 flex flex-col justify-end p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
-                    <h3 className="text-white text-lg font-bold mb-1">
-                      {image.title}
-                    </h3>
-                    <p className="text-gold-400 text-sm font-medium">
-                      {image.category}
-                    </p>
-                  </div>
+                  <motion.div
+                    className={`absolute inset-0 flex flex-col justify-end transition-all duration-300 ease-out ${
+                      isMobile
+                        ? "p-4 translate-y-0 opacity-100"
+                        : "p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100"
+                    }`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <div
+                      className={`${
+                        isMobile
+                          ? "bg-black/70 backdrop-blur-sm rounded-lg p-3"
+                          : ""
+                      }`}
+                    >
+                      <h3
+                        className={`text-white font-bold mb-1 ${
+                          isMobile ? "text-base" : "text-lg"
+                        }`}
+                      >
+                        {image.title}
+                      </h3>
+                      <p
+                        className={`text-gold-400 font-medium ${
+                          isMobile ? "text-xs" : "text-sm"
+                        }`}
+                      >
+                        {image.category}
+                      </p>
+                    </div>
+                  </motion.div>
 
                   {/* Hover Border Effect */}
                   <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold-400/50 rounded-xl transition-all duration-300" />
+
+                  {/* Mobile tap indicator */}
+                  {isMobile && (
+                    <div className="absolute top-2 right-2 opacity-70">
+                      <div className="text-white text-xs bg-black/50 rounded px-2 py-1">
+                        Tap to view
+                      </div>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -247,42 +466,181 @@ export default function LookbookGallery() {
 
             {/* Modal Content */}
             <motion.div
-              className="relative max-w-4xl max-h-[90vh] w-full"
+              className={`relative w-full ${
+                isMobile ? "max-w-md max-h-[80vh]" : "max-w-4xl max-h-[90vh]"
+              }`}
               variants={modalVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
+              style={{ x, opacity }}
+              drag={isMobile ? "x" : false}
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={handleDragEnd}
             >
               {/* Close Button */}
               <button
-                className="absolute -top-12 right-0 text-white hover:text-gold-400 transition-colors z-10"
+                className={`absolute ${
+                  isMobile ? "-top-8 right-0" : "-top-12 right-0"
+                } text-white hover:text-gold-400 transition-colors z-20`}
                 onClick={closeModal}
                 aria-label="Close modal"
               >
-                <X size={32} />
+                <X size={isMobile ? 28 : 32} />
               </button>
 
-              {/* Image Container */}
-              <div className="relative aspect-square rounded-xl overflow-hidden shadow-2xl">
-                <Image
-                  src={selectedImage.src}
-                  alt={selectedImage.alt}
-                  fill
-                  className="object-cover"
-                  sizes="90vw"
-                  quality={95}
-                  priority
-                />
-              </div>
+              {/* Zoom Controls (Mobile) */}
+              {isMobile && imageScale > 1 && (
+                <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
+                  <button
+                    className="bg-black/70 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/90 transition-colors"
+                    onClick={handleZoomIn}
+                    aria-label="Zoom in"
+                  >
+                    <ZoomIn size={16} />
+                  </button>
+                  <button
+                    className="bg-black/70 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/90 transition-colors"
+                    onClick={handleZoomOut}
+                    aria-label="Zoom out"
+                  >
+                    <ZoomOut size={16} />
+                  </button>
+                  <button
+                    className="bg-black/70 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/90 transition-colors"
+                    onClick={handleResetZoom}
+                    aria-label="Reset zoom"
+                  >
+                    <RotateCcw size={16} />
+                  </button>
+                </div>
+              )}
+
+              {/* Navigation Arrows (Desktop) */}
+              {!isMobile && (
+                <>
+                  <button
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gold-400 transition-colors z-20 bg-black/50 rounded-full p-2"
+                    onClick={() => navigateImage("prev")}
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft size={32} />
+                  </button>
+                  <button
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gold-400 transition-colors z-20 bg-black/50 rounded-full p-2"
+                    onClick={() => navigateImage("next")}
+                    aria-label="Next image"
+                  >
+                    <ChevronRight size={32} />
+                  </button>
+                </>
+              )}
+
+              {/* Mobile Navigation */}
+              {isMobile && (
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                  <button
+                    className="bg-black/70 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/90 transition-colors"
+                    onClick={() => navigateImage("prev")}
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <div className="bg-black/70 backdrop-blur-sm text-white px-3 py-2 rounded-full text-xs">
+                    {selectedIndex + 1} / {galleryImages.length}
+                  </div>
+                  <button
+                    className="bg-black/70 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/90 transition-colors"
+                    onClick={() => navigateImage("next")}
+                    aria-label="Next image"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+              )}
+
+              {/* Image Container with Touch Controls */}
+              <motion.div
+                className={`relative overflow-hidden shadow-2xl ${
+                  isMobile
+                    ? "aspect-[3/4] rounded-lg"
+                    : "aspect-square rounded-xl"
+                }`}
+                onTap={isMobile ? handleDoubleTap : undefined}
+              >
+                <motion.div
+                  className="w-full h-full"
+                  style={{
+                    scale: imageScale,
+                    x: imagePosition.x,
+                    y: imagePosition.y,
+                  }}
+                  drag={imageScale > 1}
+                  dragConstraints={containerRef}
+                  dragElastic={0.1}
+                  onPan={handlePan}
+                  animate={{
+                    scale: imageScale,
+                    x: imagePosition.x,
+                    y: imagePosition.y,
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                >
+                  <Image
+                    src={selectedImage.src}
+                    alt={selectedImage.alt}
+                    fill
+                    className="object-cover"
+                    sizes={isMobile ? "90vw" : "90vw"}
+                    quality={95}
+                    priority
+                    style={{
+                      objectPosition: "center center",
+                    }}
+                  />
+                </motion.div>
+
+                {/* Touch Instructions */}
+                {isMobile && imageScale === 1 && (
+                  <motion.div
+                    className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded text-xs"
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: 0 }}
+                    transition={{ delay: 2, duration: 1 }}
+                  >
+                    Double tap to zoom • Swipe to navigate
+                  </motion.div>
+                )}
+              </motion.div>
 
               {/* Image Info */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-xl">
-                <h3 className="text-white text-2xl font-bold mb-2">
+              <div
+                className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent ${
+                  isMobile ? "p-4 rounded-b-lg" : "p-6 rounded-b-xl"
+                }`}
+              >
+                <h3
+                  className={`text-white font-bold mb-2 ${
+                    isMobile ? "text-lg" : "text-2xl"
+                  }`}
+                >
                   {selectedImage.title}
                 </h3>
-                <p className="text-gold-400 text-lg font-medium">
+                <p
+                  className={`text-gold-400 font-medium ${
+                    isMobile ? "text-sm" : "text-lg"
+                  }`}
+                >
                   {selectedImage.category}
                 </p>
+
+                {/* Desktop Image Counter */}
+                {!isMobile && (
+                  <div className="text-gray-300 mt-2 text-sm">
+                    {selectedIndex + 1} of {galleryImages.length}
+                  </div>
+                )}
               </div>
             </motion.div>
           </motion.div>
