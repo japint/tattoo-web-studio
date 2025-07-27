@@ -16,64 +16,64 @@ export default function LookbookGallery() {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
 
   const galleryImages: GalleryImage[] = [
-    { 
-      src: "/images/img0.jpg", 
-      alt: "Traditional tattoo artwork", 
+    {
+      src: "/images/img0.jpg",
+      alt: "Traditional tattoo artwork",
       title: "Traditional Rose",
-      category: "Traditional"
+      category: "Traditional",
     },
-    { 
-      src: "/images/img1.jpg", 
-      alt: "Realistic portrait tattoo", 
+    {
+      src: "/images/img1.jpg",
+      alt: "Realistic portrait tattoo",
       title: "Portrait Realism",
-      category: "Realism"
+      category: "Realism",
     },
-    { 
-      src: "/images/img2.jpg", 
-      alt: "Geometric design tattoo", 
+    {
+      src: "/images/img2.jpg",
+      alt: "Geometric design tattoo",
       title: "Sacred Geometry",
-      category: "Geometric"
+      category: "Geometric",
     },
-    { 
-      src: "/images/img3.jpg", 
-      alt: "Watercolor style tattoo", 
+    {
+      src: "/images/img3.jpg",
+      alt: "Watercolor style tattoo",
       title: "Watercolor Phoenix",
-      category: "Watercolor"
+      category: "Watercolor",
     },
-    { 
-      src: "/images/img4.jpg", 
-      alt: "Black and grey tattoo", 
+    {
+      src: "/images/img4.jpg",
+      alt: "Black and grey tattoo",
       title: "Black & Grey Portrait",
-      category: "Black & Grey"
+      category: "Black & Grey",
     },
-    { 
-      src: "/images/img5.jpg", 
-      alt: "Dotwork tattoo design", 
+    {
+      src: "/images/img5.jpg",
+      alt: "Dotwork tattoo design",
       title: "Mandala Dotwork",
-      category: "Dotwork"
+      category: "Dotwork",
     },
-    { 
-      src: "/images/img7.jpg", 
-      alt: "Custom tattoo artwork", 
+    {
+      src: "/images/img7.jpg",
+      alt: "Custom tattoo artwork",
       title: "Custom Design",
-      category: "Custom"
+      category: "Custom",
     },
-    { 
-      src: "/images/img8.jpg", 
-      alt: "Tribal style tattoo", 
+    {
+      src: "/images/img8.jpg",
+      alt: "Tribal style tattoo",
       title: "Tribal Fusion",
-      category: "Tribal"
+      category: "Tribal",
     },
   ];
 
   const openModal = (image: GalleryImage) => {
     setSelectedImage(image);
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setSelectedImage(null);
-    document.body.style.overflow = 'unset';
+    document.body.style.overflow = "unset";
   };
 
   // Animation variants
@@ -83,60 +83,63 @@ export default function LookbookGallery() {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
+        delayChildren: 0.2,
+      },
+    },
   };
 
   const cardVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 50 
+    hidden: {
+      opacity: 0,
+      y: 50,
     },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: {
         duration: 0.6,
-        ease: [0.4, 0, 0.2, 1] as const
-      }
-    }
+        ease: [0.4, 0, 0.2, 1] as const,
+      },
+    },
   };
 
   const modalVariants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
-      scale: 0.8
+      scale: 0.8,
     },
-    visible: { 
+    visible: {
       opacity: 1,
       scale: 1,
       transition: {
         duration: 0.3,
-        ease: [0.4, 0, 0.2, 1] as const
-      }
+        ease: [0.4, 0, 0.2, 1] as const,
+      },
     },
-    exit: { 
+    exit: {
       opacity: 0,
       scale: 0.8,
       transition: {
-        duration: 0.2
-      }
-    }
+        duration: 0.2,
+      },
+    },
   };
 
   const backdropVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
-    exit: { opacity: 0 }
+    exit: { opacity: 0 },
   };
 
   return (
     <>
-      <section id="gallery" className="py-20 bg-gradient-to-b from-gray-900 to-black">
+      <section
+        id="gallery"
+        className="py-20 bg-gradient-to-b from-gray-900 to-black"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -147,12 +150,13 @@ export default function LookbookGallery() {
               <span className="accent-text">Gallery</span>
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Discover our portfolio of exceptional tattoo artistry. Each piece tells a unique story crafted with precision and passion.
+              Discover our portfolio of exceptional tattoo artistry. Each piece
+              tells a unique story crafted with precision and passion.
             </p>
           </motion.div>
 
           {/* Gallery Grid */}
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
             variants={containerVariants}
             initial="hidden"
@@ -176,10 +180,10 @@ export default function LookbookGallery() {
                     sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     quality={85}
                   />
-                  
+
                   {/* Dark Overlay */}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 ease-out" />
-                  
+
                   {/* Content Overlay */}
                   <div className="absolute inset-0 flex flex-col justify-end p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
                     <h3 className="text-white text-lg font-bold mb-1">
@@ -198,22 +202,27 @@ export default function LookbookGallery() {
           </motion.div>
 
           {/* View More Button */}
-          <motion.div 
+          <motion.div
             className="text-center mt-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <button className="btn-primary group">
+            <button className="btn-primary group" suppressHydrationWarning>
               <span>View Complete Portfolio</span>
-              <svg 
-                className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1"
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
               </svg>
             </button>
           </motion.div>
