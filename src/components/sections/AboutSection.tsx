@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function AboutSection() {
   const achievements = [
@@ -42,7 +45,13 @@ export default function AboutSection() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header Section */}
-        <div className="text-center mb-20">
+        <motion.div 
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="section-title mb-6">
             <span className="accent-text">About</span> Our Studio
           </h2>
@@ -51,12 +60,23 @@ export default function AboutSection() {
             premium tattoo studio dedicated to creating exceptional art that
             tells your unique story through ink.
           </p>
-        </div>
+        </motion.div>
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
+        <motion.div 
+          className="grid lg:grid-cols-2 gap-16 items-center mb-20"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+        >
           {/* Content Side */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             <h3 className="text-3xl font-bold accent-text mb-6">
               Our Philosophy
             </h3>
@@ -90,10 +110,16 @@ export default function AboutSection() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Image Side */}
-          <div className="relative">
+          <motion.div 
+            className="relative"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             <div className="h-[500px] rounded-lg overflow-hidden card-hover relative group">
               <Image
                 src="/images/img7.jpg"
@@ -122,15 +148,25 @@ export default function AboutSection() {
             <div className="absolute -top-6 -right-6 bg-gold-400 text-black px-6 py-3 rounded-full font-bold transform rotate-12 shadow-lg">
               Premium Studio
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Statistics Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-4 gap-6"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
           {achievements.map((achievement, index) => (
-            <div
+            <motion.div
               key={index}
               className="text-center p-6 glass-effect rounded-lg card-hover group"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
             >
               <div className="text-4xl mb-3 group-hover:animate-bounce">
                 {achievement.icon}
@@ -141,12 +177,18 @@ export default function AboutSection() {
               <p className="text-gray-400 text-sm font-medium">
                 {achievement.label}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Call to Action */}
-        <div className="text-center mt-16">
+        <motion.div 
+          className="text-center mt-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+        >
           <div className="glass-effect rounded-2xl p-8 max-w-4xl mx-auto">
             <h3 className="text-2xl font-bold accent-text mb-4">
               Ready to Start Your Journey?
@@ -164,7 +206,7 @@ export default function AboutSection() {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

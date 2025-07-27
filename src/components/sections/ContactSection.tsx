@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { SectionHeader, Card } from "../ui";
 import { ContactForm } from "../business";
 import { BUSINESS_INFO } from "../../config/constants";
@@ -6,13 +9,26 @@ export default function ContactSection() {
   return (
     <section id="contact" className="py-20 bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          title="Get in Touch"
-          subtitle="Ready to start your tattoo journey? Contact us today to schedule your consultation."
-          accent="Touch"
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <SectionHeader
+            title="Get in Touch"
+            subtitle="Ready to start your tattoo journey? Contact us today to schedule your consultation."
+            accent="Touch"
+          />
+        </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <motion.div 
+          className="grid lg:grid-cols-2 gap-12"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+        >
           <div>
             <Card className="p-8">
               <h3 className="text-2xl font-bold accent-text mb-6">
@@ -85,7 +101,7 @@ export default function ContactSection() {
               <ContactForm />
             </Card>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
