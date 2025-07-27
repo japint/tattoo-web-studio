@@ -95,7 +95,7 @@ export default function LookbookGallery() {
   // Mobile detection and intersection observer for lazy loading
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth <= 768); // Better mobile detection for all mobile devices
     };
 
     checkMobile();
@@ -289,12 +289,12 @@ export default function LookbookGallery() {
     <>
       <section
         id="gallery"
-        className="scroll-snap-section py-20 bg-gradient-to-b from-gray-900 to-black"
+        className="scroll-snap-section py-12 sm:py-20 bg-gradient-to-b from-gray-900 to-black"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">{/* Reduced mobile padding */}
           {/* Section Header */}
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-8 sm:mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -303,7 +303,7 @@ export default function LookbookGallery() {
             <h2 className="section-title mb-4">
               <span className="accent-text">Gallery</span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto px-2 sm:px-0">{/* Better mobile text sizing */}
               Discover our portfolio of exceptional tattoo artistry. Each piece
               tells a unique story crafted with precision and passion.
             </p>
@@ -311,11 +311,7 @@ export default function LookbookGallery() {
 
           {/* Gallery Grid */}
           <motion.div
-            className={`grid gap-6 ${
-              isMobile
-                ? "grid-cols-1 sm:grid-cols-2"
-                : "grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-            }`}
+            className="grid gap-2 grid-cols-2 xs:gap-3 sm:gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -326,13 +322,8 @@ export default function LookbookGallery() {
               <motion.div
                 key={index}
                 variants={cardVariants}
-                className={`group relative rounded-xl overflow-hidden cursor-pointer card-hover ${
-                  isMobile
-                    ? "aspect-[4/3] min-h-[250px]"
-                    : "aspect-square min-h-[200px] md:min-h-[250px]"
-                }`}
+                className="gallery-item group relative rounded-lg xs:rounded-xl overflow-hidden cursor-pointer card-hover aspect-[4/5] xs:aspect-[4/5] sm:aspect-square"
                 onClick={() => openModal(image, index)}
-                onTap={isMobile ? handleDoubleTap : undefined}
                 data-gallery-item
                 data-index={index}
                 whileHover={{ scale: 1.02 }}
@@ -346,7 +337,7 @@ export default function LookbookGallery() {
                       alt={image.alt}
                       fill
                       className="object-cover transition-all duration-500 ease-out group-hover:scale-110"
-                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      sizes="(max-width: 475px) 50vw, (max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       quality={90}
                       loading={index < 4 ? "eager" : "lazy"}
                       placeholder="blur"
@@ -371,34 +362,16 @@ export default function LookbookGallery() {
 
                   {/* Content Overlay */}
                   <motion.div
-                    className={`absolute inset-0 flex flex-col justify-end transition-all duration-300 ease-out ${
-                      isMobile
-                        ? "p-4 translate-y-0 opacity-100"
-                        : "p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100"
-                    }`}
+                    className="absolute inset-0 flex flex-col justify-end p-3 sm:p-4 md:p-6 opacity-100 sm:opacity-0 sm:translate-y-4 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 transition-all duration-300 ease-out"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <div
-                      className={`${
-                        isMobile
-                          ? "bg-black/70 backdrop-blur-sm rounded-lg p-3"
-                          : ""
-                      }`}
-                    >
-                      <h3
-                        className={`text-white font-bold mb-1 ${
-                          isMobile ? "text-base" : "text-lg"
-                        }`}
-                      >
+                    <div className="bg-black/80 backdrop-blur-sm rounded-lg p-2 sm:p-3 md:bg-transparent md:backdrop-blur-none">
+                      <h3 className="text-white font-bold mb-1 text-sm sm:text-base md:text-lg">
                         {image.title}
                       </h3>
-                      <p
-                        className={`text-gold-400 font-medium ${
-                          isMobile ? "text-xs" : "text-sm"
-                        }`}
-                      >
+                      <p className="text-gold-400 font-medium text-xs sm:text-sm">
                         {image.category}
                       </p>
                     </div>
@@ -406,15 +379,6 @@ export default function LookbookGallery() {
 
                   {/* Hover Border Effect */}
                   <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold-400/50 rounded-xl transition-all duration-300" />
-
-                  {/* Mobile tap indicator */}
-                  {isMobile && (
-                    <div className="absolute top-2 right-2 opacity-70">
-                      <div className="text-white text-xs bg-black/50 rounded px-2 py-1">
-                        Tap to view
-                      </div>
-                    </div>
-                  )}
                 </div>
               </motion.div>
             ))}

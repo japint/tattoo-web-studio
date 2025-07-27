@@ -41,6 +41,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  /* iOS Safari optimizations */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 footer {
   scroll-snap-align: start;
@@ -108,6 +113,11 @@ footer {
     width: 100%;
     height: 300px;
     min-height: 200px;
+    /* Mobile touch optimizations */
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
   .gallery-item img {
