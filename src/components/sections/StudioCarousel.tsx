@@ -157,14 +157,20 @@ export default function StudioCarousel() {
           </Swiper>
 
           {/* Custom Navigation Arrows */}
-          <button className="studio-prev absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/50 hover:bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:text-gold-400 transition-all duration-300 group">
+          <button
+            className="studio-prev absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/50 hover:bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:text-gold-400 transition-all duration-300 group"
+            suppressHydrationWarning
+          >
             <ChevronLeft
               size={24}
               className="transition-transform group-hover:scale-110"
             />
           </button>
 
-          <button className="studio-next absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/50 hover:bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:text-gold-400 transition-all duration-300 group">
+          <button
+            className="studio-next absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/50 hover:bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:text-gold-400 transition-all duration-300 group"
+            suppressHydrationWarning
+          >
             <ChevronRight
               size={24}
               className="transition-transform group-hover:scale-110"
