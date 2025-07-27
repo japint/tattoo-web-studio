@@ -30,9 +30,11 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory !important;
 }
 
 body {
+  scroll-snap-type: y mandatory !important;
   color: var(--foreground);
   background: var(--background);
   font-family: "Arial", "Helvetica", sans-serif;
@@ -290,6 +292,12 @@ body {
 /* Section Transitions */
 section {
   transition: all 0.3s ease;
+}
+
+.scroll-snap-section {
+  scroll-snap-align: start !important;
+  scroll-snap-stop: always !important;
+  min-height: 100vh !important;
 }
 
 /* Loading Animation for Images */

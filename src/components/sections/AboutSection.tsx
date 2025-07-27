@@ -33,7 +33,7 @@ export default function AboutSection() {
   ];
 
   return (
-    <section id="about" className="py-20 bg-gray-900 relative overflow-hidden">
+    <section id="about" className="scroll-snap-section py-20 bg-gray-900 relative overflow-hidden">
       <div className="absolute inset-0 bg-tattoo-pattern opacity-5"></div>
 
       {/* Floating decorative elements */}
