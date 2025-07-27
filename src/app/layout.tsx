@@ -18,6 +18,13 @@ export const metadata: Metadata = {
     "Professional tattoo artists creating custom designs and exceptional art. Book your consultation at Ink Rebellion today.",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
