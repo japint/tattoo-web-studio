@@ -10,10 +10,10 @@ export const BUSINESS_INFO = {
     email: "lnpc.idealhubstd@gmail.com",
     facebook: "https://www.facebook.com/ideahubstudio/",
     address: {
-      street: "123 Art Street",
-      city: "Creative District",
-      state: "NY",
-      zipCode: "10001",
+      street: "McArthur Highway",
+      city: "Apalit",
+      state: "Pampanga",
+      zipCode: "2016",
     },
   },
 
@@ -67,5 +67,6 @@ export const NAVIGATION_ITEMS = [
   { href: "#gallery", label: "Gallery" },
   { href: "#artists", label: "Artists" },
   { href: "#services", label: "Services" },
+  { href: "#location", label: "Location" },
   { href: "#contact", label: "Contact" },
 ] as const;

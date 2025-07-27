@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 py-12 border-t border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
+        <motion.div
           className="grid md:grid-cols-4 gap-8"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -136,7 +136,7 @@ export default function Footer() {
               Contact Info
             </h4>
             <div className="space-y-2 text-gray-400">
-              <p>📍 123 Art Street, Creative District</p>
+              <p>📍 Poblacion Street, Macabebe, Pampanga</p>
               <p>📞 0954-048-9964</p>
               <p>✉️ lnpc.idealhubstd@gmail.com</p>
               <p>🕒 Tue-Sat: 11am-8pm</p>
@@ -144,7 +144,7 @@ export default function Footer() {
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           className="border-t border-gray-800 mt-12 pt-8 text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
