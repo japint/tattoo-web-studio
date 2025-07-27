@@ -4,3 +4,4 @@ export { default as GalleryGrid } from "./GalleryGrid";
 export { default as ArtistCard } from "./ArtistCard";
 export { default as ServiceGrid } from "./ServiceGrid";
 export { default as FloatingActionButton } from "./FloatingActionButton";
+export { default as StudioMap } from "./StudioMap";

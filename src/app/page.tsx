@@ -7,6 +7,7 @@ import StudioCarousel from "@/components/sections/StudioCarousel";
 import LookbookGallery from "@/components/sections/LookbookGallery";
 import ArtistsSection from "@/components/sections/ArtistsSection";
 import ServicesSection from "@/components/sections/ServicesSection";
+import StudioFinderSection from "@/components/sections/StudioFinderSection";
 import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/sections/Footer";
 import { FloatingActionButton } from "@/components/business";
@@ -21,6 +22,7 @@ export default function Home() {
       <LookbookGallery />
       <ArtistsSection />
       <ServicesSection />
+      <StudioFinderSection />
       <ContactSection />
       <Footer />
 
