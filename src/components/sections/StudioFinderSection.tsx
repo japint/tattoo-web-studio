@@ -17,7 +17,7 @@ export default function StudioFinderSection() {
         >
           <SectionHeader
             title="Find Our Studio"
-            subtitle="Located in the heart of Macabebe, Pampanga. Visit us for your next tattoo adventure."
+            subtitle="Located on McArthur Highway in Apalit, Pampanga. Visit us for your next tattoo adventure."
             accent="Studio"
           />
         </motion.div>
@@ -58,7 +58,7 @@ export default function StudioFinderSection() {
               Prime Location
             </h3>
             <p className="text-gray-400">
-              Located in the busy commercial area of Poblacion Street
+              Located on the busy McArthur Highway commercial corridor
             </p>
           </div>
 
