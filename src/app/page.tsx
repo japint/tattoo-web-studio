@@ -3,6 +3,7 @@
 import Navigation from "@/components/sections/Navigation";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
+import StudioCarousel from "@/components/sections/StudioCarousel";
 import LookbookGallery from "@/components/sections/LookbookGallery";
 import ArtistsSection from "@/components/sections/ArtistsSection";
 import ServicesSection from "@/components/sections/ServicesSection";
@@ -16,6 +17,7 @@ export default function Home() {
       <Navigation />
       <HeroSection />
       <AboutSection />
+      <StudioCarousel />
       <LookbookGallery />
       <ArtistsSection />
       <ServicesSection />
