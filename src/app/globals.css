@@ -44,7 +44,7 @@ body {
 }
 footer {
   scroll-snap-align: start;
-  min-height: auto !important; /* Override the 100vh if needed */
+  /* min-height: auto !important; Override the 100vh if needed */
 }
 
 * {
