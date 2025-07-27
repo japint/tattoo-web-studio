@@ -42,6 +42,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
+footer {
+  scroll-snap-align: start;
+  min-height: auto !important; /* Override the 100vh if needed */
+}
 
 * {
   box-sizing: border-box;
