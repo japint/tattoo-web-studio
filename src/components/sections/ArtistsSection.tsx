@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function ArtistsSection() {
   const artists = [
@@ -31,7 +34,13 @@ export default function ArtistsSection() {
   return (
     <section id="artists" className="py-20 bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="section-title">
             Meet Our <span className="accent-text">Artists</span>
           </h2>
@@ -39,13 +48,17 @@ export default function ArtistsSection() {
             Our talented team of artists brings years of experience and unique
             styles to create your perfect tattoo.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {artists.map((artist, index) => (
-            <div
+            <motion.div
               key={index}
               className="glass-effect rounded-lg overflow-hidden card-hover"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <div className="h-64 overflow-hidden relative">
                 <Image
@@ -77,7 +90,7 @@ export default function ArtistsSection() {
                   View Portfolio
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

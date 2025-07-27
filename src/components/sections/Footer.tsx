@@ -1,8 +1,18 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function Footer() {
   return (
     <footer className="bg-gray-900 py-12 border-t border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-8">
+        <motion.div 
+          className="grid md:grid-cols-4 gap-8"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+        >
           <div>
             <h3 className="text-xl font-bold accent-text mb-4">
               Ink Rebellion
@@ -132,13 +142,19 @@ export default function Footer() {
               <p>🕒 Tue-Sat: 11am-8pm</p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center">
+        <motion.div 
+          className="border-t border-gray-800 mt-12 pt-8 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           <p className="text-gray-400">
             © 2025 Ink Rebellion Tattoo Studio. All rights reserved.
           </p>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
